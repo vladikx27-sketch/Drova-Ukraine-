@@ -964,6 +964,11 @@ html[lang="ru"] .lg-uk{display:none}
   .jcards{margin-top:10px}
 }
 
+
+/* підвал: однаковий стиль текстів, одна лінія */
+.ft-grid{border-bottom:0!important;padding-bottom:0!important}
+.ft-addr{font-size:14.5px!important;font-weight:400!important;color:#BFCAC2!important;line-height:1.55!important}
+.ft-addr svg{color:var(--accent-l)}
 /* responsive */
 @media (max-width:1100px){
   .nav{display:none}
@@ -1418,7 +1423,6 @@ html[lang="ru"] .lg-uk{display:none}
       <div class="ft-col">
         <h4>Контакти</h4>
         <a class="ft-phone" href="tel:+380685142331"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>+38 068 514 23 31</a>
-        <div class="ft-msg"><a href="viber://chat?number=%2B380685142331"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8c5.2 0 8.3 2.5 8.3 7.5s-3.1 7.5-8.3 7.5c-.9 0-1.7-.1-2.5-.3L6.2 20v-3.2C4.6 15.5 3.7 13.4 3.7 10.3 3.7 5.3 6.8 2.8 12 2.8z"/><path d="M9.3 7.7c.3-.3.7-.3.9 0l.8 1.1c.2.3.2.6 0 .9l-.4.5c.4.9 1.1 1.6 2 2l.5-.4c.3-.2.6-.2.9 0l1.1.8c.3.2.3.6 0 .9l-.6.6c-.5.5-1.3.6-2 .3-1.8-.8-3.2-2.2-4-4-.3-.7-.2-1.5.3-2z"/></svg>Viber</a><a href="https://t.me/+380685142331" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 4 3 11.2l6.2 2.2L11.4 20l3.3-4.2 4.8 3.6z"/><path d="m9.2 13.4 11.8-9.4"/></svg>Telegram</a></div>
         <a class="ft-addr" href="https://www.google.com/maps/dir/?api=1&amp;destination=%D0%9F%D0%BE%D0%BB%D1%82%D0%B0%D0%B2%D1%81%D1%8C%D0%BA%D0%B5%20%D1%88%D0%BE%D1%81%D0%B5%2C%20%D0%94%D0%BD%D1%96%D0%BF%D1%80%D0%BE%2C%20%D0%94%D0%BD%D1%96%D0%BF%D1%80%D0%BE%D0%BF%D0%B5%D1%82%D1%80%D0%BE%D0%B2%D1%81%D1%8C%D0%BA%D0%B0%20%D0%BE%D0%B1%D0%BB%D0%B0%D1%81%D1%82%D1%8C" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.1-7-11.4a7 7 0 0 1 14 0C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.6" r="2.5"/></svg><span>м. Дніпро, лівий берег, район вул. Передової та Полтавського шосе</span></a>
       </div>
       <div class="ft-col">
@@ -1842,7 +1846,8 @@ document.querySelectorAll('.rv').forEach(function(el){ if (el.classList.contains
     prog.style.strokeDashoffset = L - d;
     var pt = path.getPointAtLength(d), pt2 = path.getPointAtLength(Math.min(L, d + 2));
     var ang = Math.atan2(pt2.y - pt.y, pt2.x - pt.x) * 180 / Math.PI;
-    truck.setAttribute('transform', 'translate(' + pt.x.toFixed(1) + ',' + pt.y.toFixed(1) + ') rotate(' + ang.toFixed(1) + ') scale(' + TS + ')');
+    var flip = Math.abs(ang) > 90; if (flip) ang = ang > 0 ? ang - 180 : ang + 180;
+    truck.setAttribute('transform', 'translate(' + pt.x.toFixed(1) + ',' + pt.y.toFixed(1) + ') rotate(' + ang.toFixed(1) + ') scale(' + (flip ? -TS : TS) + ',' + TS + ')');
     var idx = 0; F.forEach(function(f, i){ if (d / L >= f - .01) idx = i; });
     sts.forEach(function(s, i){ s.classList.toggle('on', i <= idx); });
     if (idx !== last) {
