@@ -2,6 +2,7 @@
 <html lang="uk">
 <head>
 <meta charset="utf-8">
+<script>document.documentElement.className+=" js"</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Купити дрова в Дніпрі з доставкою — дуб, акація, брикети, пелети | Drova Ukraine</title>
 <meta name="description" content="Дрова з доставкою по Дніпру та області: дуб, ясен, акація, сосна — метрові, у чурках, колоті. Паливні брикети (деревні, пшеничні, соняшникові) та пелети із соняшнику. Від 2 м³ до цілої фури. Опт і роздріб, доставка по Україні. ☎ +38 068 514 23 31">
@@ -116,6 +117,8 @@ p{margin:0}
 .intro .bar{width:160px;height:2px;background:rgba(43,47,45,.1);border-radius:2px;overflow:hidden}
 .intro .bar i{display:block;height:100%;width:100%;background:var(--accent);transform:scaleX(0);transform-origin:0 50%;animation:barFill 2s .1s cubic-bezier(.6,0,.3,1) forwards}
 @keyframes draw{to{stroke-dashoffset:0}}
+.intro{animation:introAuto .9s 3.4s cubic-bezier(.7,0,.2,1) forwards}
+@keyframes introAuto{to{transform:translateY(-104%);opacity:0;visibility:hidden;pointer-events:none}}
 @keyframes flameIn{from{opacity:0;transform:scale(.2)}to{opacity:1;transform:scale(1)}}
 @keyframes flicker{0%,100%{transform:scale(1,1) skewX(0)}25%{transform:scale(.94,1.06) skewX(3deg)}50%{transform:scale(1.05,.95) skewX(-3deg)}75%{transform:scale(.97,1.04) skewX(1deg)}}
 @keyframes letterUp{to{transform:none}}
@@ -248,7 +251,8 @@ body.menu-open .hdr{color:#F3ECDF}
 /* ===== FLEET ===== */
 .fleet{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
 .truck{padding:30px;display:flex;flex-direction:column;gap:12px;overflow:hidden}
-.truck svg{height:76px;width:auto;align-self:flex-start;overflow:visible;transform:translateX(-140%)}
+.truck svg{height:76px;width:auto;align-self:flex-start;overflow:visible}
+.js .truck:not(.in) svg{transform:translateX(-140%)}
 .truck.in svg{animation:drive 1.4s cubic-bezier(.2,.8,.2,1) forwards;animation-delay:var(--rvd,0s)}
 .truck .big{font-family:var(--head);font-weight:500;font-size:46px;line-height:1;color:var(--accent-t)}
 .truck .big .cnt{font:inherit;color:inherit}
@@ -271,11 +275,14 @@ body.menu-open .hdr{color:#F3ECDF}
 /* ===== LOCAL GEO ===== */
 .geo-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:56px;align-items:center}
 .geo-map{width:100%;height:auto;overflow:visible}
-.geo-map .route{fill:none;stroke:var(--accent);stroke-width:2.6;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1}
+.geo-map .route{fill:none;stroke:var(--accent);stroke-width:2.6;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:0}
+.js .geo-map:not(.in) .route{stroke-dashoffset:1}
 .geo-map.in .route{animation:draw 1.3s ease forwards;animation-delay:var(--rd)}
-.geo-map .dst{transform-box:fill-box;transform-origin:center;transform:scale(0)}
+.geo-map .dst{transform-box:fill-box;transform-origin:center}
+.js .geo-map:not(.in) .dst{transform:scale(0)}
 .geo-map.in .dst{animation:dotIn .45s cubic-bezier(.3,1.6,.5,1) both;animation-delay:var(--dd)}
-.geo-map .lbl{opacity:0;transition:opacity .6s 1.5s}
+.geo-map .lbl{transition:opacity .6s 1.5s}
+.js .geo-map:not(.in) .lbl{opacity:0}
 .geo-map.in .lbl{opacity:1}
 .geo-map .mover{opacity:0;transition:opacity .5s 2s}
 .geo-map.in .mover{opacity:1}
@@ -406,8 +413,8 @@ body.menu-open .hdr{color:#F3ECDF}
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(201,86,26,.6)}70%,100%{box-shadow:0 0 0 14px rgba(201,86,26,0)}}
 
 /* reveal with blur */
-.rv{opacity:0;transform:translateY(30px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1);transition-delay:var(--rvd,0s)}
-.rv.in{opacity:1;transform:none}
+.js .rv{opacity:0;transform:translateY(30px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1);transition-delay:var(--rvd,0s)}
+.js .rv.in{opacity:1;transform:none}
 
 
 /* ===== HERO v2: заголовок + заявка ===== */
@@ -447,6 +454,7 @@ body.ready .ticket{animation:ticketIn .9s .2s cubic-bezier(.2,.7,.2,1) both}
 .t-inp input::placeholder{color:#B4ADA3}
 .t-inp input:focus{outline:none;border-bottom-color:var(--accent);border-bottom-style:solid}
 .t-inp.err input{border-bottom-color:#B42318;border-bottom-style:solid}
+.hp{position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important}
 .t-err{display:none;color:#B42318;font-size:13px;font-weight:700;margin:-6px 0 10px}
 .t-err.on{display:block}
 .t-send{width:100%;min-height:58px;margin-top:6px}
@@ -538,7 +546,7 @@ body.ready .ticket{animation:ticketIn .9s .2s cubic-bezier(.2,.7,.2,1) both}
 .ss-top{top:0;border-radius:27px 27px 0 0;background:repeating-linear-gradient(180deg,rgba(0,0,0,0) 0 7px,rgba(0,0,0,.12) 7px 8px),linear-gradient(180deg,#4A2A12,#6B4226 70%,#7A4A22)}
 .ss-bot{bottom:0;border-radius:0 0 27px 27px;background:repeating-linear-gradient(180deg,rgba(0,0,0,0) 0 7px,rgba(0,0,0,.12) 7px 8px),linear-gradient(180deg,#7A4A22,#6B4226 30%,#4A2A12)}
 .ss-kerf{position:absolute;left:28px;top:50%;height:3px;margin-top:-1.5px;width:var(--p,0px);background:#E9C894;border-radius:2px;box-shadow:0 0 6px rgba(233,200,148,.7)}
-.ss-label{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding-left:56px;font:700 13px var(--body);letter-spacing:.06em;text-transform:uppercase;color:#FAF1E4;pointer-events:none;transition:opacity .3s}
+.ss-label{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.25;padding:0 16px 0 74px;font:700 13px var(--body);letter-spacing:.06em;text-transform:uppercase;color:#FAF1E4;pointer-events:none;transition:opacity .3s}
 .ss-saw{position:absolute;left:0;top:0;width:62px;height:62px;border-radius:50%;border:0;background:var(--accent);box-shadow:0 10px 24px -8px rgba(201,86,26,.7);cursor:grab;display:flex;align-items:center;justify-content:center;transform:translateX(var(--sx,0px));z-index:2}
 .ss-saw svg{width:38px;height:auto}
 .ss-saw:focus-visible{outline:3px solid var(--green);outline-offset:3px}
@@ -648,7 +656,6 @@ body.ready .ticket{animation:ticketIn .9s .2s cubic-bezier(.2,.7,.2,1) both}
 .promo{position:fixed;left:22px;bottom:22px;z-index:70;width:min(390px,calc(100vw - 20px));background:#fff;border-radius:22px;padding:22px 22px 20px;box-shadow:0 30px 70px -20px rgba(43,47,45,.45);border:1px solid var(--line);--logo-bg:#fff}
 .promo:not([hidden]){animation:promoIn .6s cubic-bezier(.3,1.3,.5,1) both}
 @keyframes promoIn{from{opacity:0;transform:translateY(40px) scale(.96)}to{opacity:1;transform:none}}
-.promo::before{content:"";position:absolute;left:0;right:0;top:0;height:5px;border-radius:22px 22px 0 0;background:linear-gradient(90deg,var(--green),var(--accent-l),var(--accent))}
 .pr-x{position:absolute;right:10px;top:10px;width:40px;height:40px;border-radius:50%;border:0;background:var(--bg2);color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center}
 .pr-x svg{width:18px;height:18px}
 .pr-top{display:flex;align-items:center;gap:12px;padding-right:40px}
@@ -673,10 +680,9 @@ body.ready .ticket{animation:ticketIn .9s .2s cubic-bezier(.2,.7,.2,1) both}
   .ft-grid{grid-template-columns:1fr 1fr}
 }
 @media (max-width:860px){
-  .fab{width:70px;height:70px;right:10px;bottom:94px}
+  .fab{width:70px;height:70px;right:12px;bottom:16px}
   .fab-core{inset:18px;padding:6px 8px}
   .fab-ring text{font-size:13px}
-  .promo{left:10px;bottom:84px}
   .pb-list{grid-template-columns:1fr 1fr;row-gap:12px}
   .pb-list li{border-left:0;padding:4px 0}
 }
@@ -891,6 +897,8 @@ body.ready .ticket{animation:ticketIn .9s .2s cubic-bezier(.2,.7,.2,1) both}
 
 .loc.rv{transform:none!important}
 
+
+@media (max-width:560px){.ss-label{font-size:11.5px;letter-spacing:.03em;padding:0 14px 0 72px}}
 /* responsive */
 @media (max-width:1100px){
   .nav{display:none}
@@ -907,8 +915,6 @@ body.ready .ticket{animation:ticketIn .9s .2s cubic-bezier(.2,.7,.2,1) both}
   .fleet{grid-template-columns:1fr}
   .jcards{grid-template-columns:repeat(2,minmax(0,1fr))}
   .hdr-phone{display:none}
-  .mbar{display:flex}
-  body{padding-bottom:84px}
   .scroll-cue{display:none}
 }
 @media (max-width:560px){
@@ -935,7 +941,7 @@ body.ready .ticket{animation:ticketIn .9s .2s cubic-bezier(.2,.7,.2,1) both}
 }
 </style>
 </head>
-<body class="locked">
+<body>
 
 <div class="aurora" aria-hidden="true"></div>
 <div class="progress" aria-hidden="true"></div>
@@ -1006,13 +1012,13 @@ body.ready .ticket{animation:ticketIn .9s .2s cubic-bezier(.2,.7,.2,1) both}
       <h2 class="t-title">Дізнатися ціну</h2>
       <p class="t-sub">Оберіть паливо — і ми передзвонимо з актуальною ціною.</p>
       <div class="t-dash" aria-hidden="true"></div>
-      <form id="tForm" novalidate>
+      <form id="tForm" novalidate><input class="hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
         <div class="t-row"><div class="t-lbl" id="tl1"><b>01</b> · ЩО ПОТРІБНО</div><div class="t-chips" data-k="fuel" role="radiogroup" aria-labelledby="tl1"></div></div>
         <div class="t-row"><div class="t-lbl" id="tl2"><b>02</b> · ВИД</div><div class="t-chips" data-k="kind" role="radiogroup" aria-labelledby="tl2"></div></div>
         <div class="t-row"><div class="t-lbl" id="tl3"><b>03</b> · ОБСЯГ</div><div class="t-chips" data-k="vol" role="radiogroup" aria-labelledby="tl3"></div></div>
-        <div class="t-row t-inp"><label for="tName"><b>04</b> · ІМ’Я</label><input id="tName" name="name" autocomplete="name" placeholder="Олена"></div>
-        <div class="t-row t-inp" id="tPhoneRow"><label for="tPhone"><b>05</b> · ТЕЛЕФОН</label><input id="tPhone" name="phone" type="tel" autocomplete="tel" placeholder="+380"></div>
-        <p class="t-err" id="tErr" role="alert">Вкажіть номер телефону, щоб ми могли передзвонити</p>
+        <div class="t-row t-inp"><label for="tName"><b>04</b> · ІМ’Я</label><input id="tName" maxlength="40" name="name" autocomplete="name" placeholder="Олена"></div>
+        <div class="t-row t-inp" id="tPhoneRow"><label for="tPhone"><b>05</b> · ТЕЛЕФОН</label><input id="tPhone" maxlength="20" inputmode="tel" name="phone" type="tel" autocomplete="tel" placeholder="+380"></div>
+        <p class="t-err" id="tErr" role="alert">Вкажіть коректний номер, напр. 068 123 45 67</p>
         <div class="sawsend" id="sawSend">
           <div class="ss-log" aria-hidden="true"><div class="ss-top"></div><div class="ss-bot"></div><span class="ss-kerf"></span></div>
           <span class="ss-label" aria-hidden="true">Протягніть пилу, щоб надіслати</span>
@@ -1217,7 +1223,7 @@ body.ready .ticket{animation:ticketIn .9s .2s cubic-bezier(.2,.7,.2,1) both}
         <div class="qz-bar"><i id="qzBar"></i></div>
         <div class="qz-pane on" data-s="1">
           <h3>Куди привезти?</h3>
-          <div class="qz-field qz-first"><label for="qzCity">Ваше місто, селище, смт чи село</label><div class="qz-row"><input id="qzCity" list="qzCityList" placeholder="Напр. смт Петриківка" autocomplete="address-level2"><button type="button" class="btn btn-amber qz-next" id="qzCityGo">Далі</button></div></div>
+          <div class="qz-field qz-first"><label for="qzCity">Ваше місто, селище, смт чи село</label><div class="qz-row"><input id="qzCity" maxlength="60" list="qzCityList" placeholder="Напр. смт Петриківка" autocomplete="address-level2"><button type="button" class="btn btn-amber qz-next" id="qzCityGo">Далі</button></div></div>
           <datalist id="qzCityList"></datalist>
           <p class="qz-or">або оберіть зі списку:</p>
           <div class="qz-chips" id="qzCities"></div>
@@ -1233,10 +1239,10 @@ body.ready .ticket{animation:ticketIn .9s .2s cubic-bezier(.2,.7,.2,1) both}
         <div class="qz-pane" data-s="4">
           <h3>Куди передзвонити?</h3>
           <p class="qz-sum" id="qzSum"></p>
-          <form id="qzForm" novalidate>
-            <div class="qz-field"><label for="qzName">Ім’я</label><input id="qzName" autocomplete="name" placeholder="Ваше ім’я"></div>
-            <div class="qz-field"><label for="qzPhone">Телефон *</label><input id="qzPhone" type="tel" autocomplete="tel" placeholder="+380"></div>
-            <p class="qz-err" id="qzErr" role="alert">Вкажіть номер телефону</p>
+          <form id="qzForm" novalidate><input class="hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <div class="qz-field"><label for="qzName">Ім’я</label><input id="qzName" maxlength="40" autocomplete="name" placeholder="Ваше ім’я"></div>
+            <div class="qz-field"><label for="qzPhone">Телефон *</label><input id="qzPhone" maxlength="20" inputmode="tel" type="tel" autocomplete="tel" placeholder="+380"></div>
+            <p class="qz-err" id="qzErr" role="alert">Вкажіть коректний номер, напр. 068 123 45 67</p>
             <button class="btn btn-amber qz-send" type="submit">Надіслати</button>
           </form>
         </div>
@@ -1373,35 +1379,44 @@ body.ready .ticket{animation:ticketIn .9s .2s cubic-bezier(.2,.7,.2,1) both}
   </button>
   <div class="pr-top"><span class="pr-ic"><svg class="logo-icon" viewBox="0 -10 410 520" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="13" stroke-linejoin="miter" stroke-linecap="butt"><path class="ln" pathLength="1" d="M95 352 C 38 312, 30 232, 82 180 C 100 162, 116 148, 126 128 C 132 160, 140 178, 152 192 C 150 122, 168 66, 196 6 C 216 62, 250 98, 262 152 C 276 140, 288 126, 296 110 C 334 158, 362 224, 346 284 C 338 314, 326 336, 315 352"/><polyline class="ln" pathLength="1" points="137,246 205,172 273,246"/><polyline class="ln" pathLength="1" points="137,314 205,242 273,314"/><g><g transform="translate(48 458) rotate(-7)"><path class="ln" pathLength="1" d="M0 -27 H114 A27 27 0 0 1 114 27 H0 Z" fill="var(--logo-bg,#FAF7F2)"/><circle class="ln" pathLength="1" r="27" fill="var(--logo-bg,#FAF7F2)"/><circle class="ln" pathLength="1" r="12" stroke-width="8"/></g><g transform="translate(84 380) rotate(25)"><path class="ln" pathLength="1" d="M0 -27 H86 A27 27 0 0 1 86 27 H0 Z" fill="var(--logo-bg,#FAF7F2)"/><circle class="ln" pathLength="1" r="27" fill="var(--logo-bg,#FAF7F2)"/><circle class="ln" pathLength="1" r="12" stroke-width="8"/></g></g><g transform="translate(410 0) scale(-1 1)"><g transform="translate(48 458) rotate(-7)"><path class="ln" pathLength="1" d="M0 -27 H114 A27 27 0 0 1 114 27 H0 Z" fill="var(--logo-bg,#FAF7F2)"/><circle class="ln" pathLength="1" r="27" fill="var(--logo-bg,#FAF7F2)"/><circle class="ln" pathLength="1" r="12" stroke-width="8"/></g><g transform="translate(84 380) rotate(25)"><path class="ln" pathLength="1" d="M0 -27 H86 A27 27 0 0 1 86 27 H0 Z" fill="var(--logo-bg,#FAF7F2)"/><circle class="ln" pathLength="1" r="27" fill="var(--logo-bg,#FAF7F2)"/><circle class="ln" pathLength="1" r="12" stroke-width="8"/></g></g><path class="ln" pathLength="1" d="M205 172 V500"/></g></svg></span><b id="promoT">Потрібні дрова, брикети чи пелети?</b><span class="pr-sub" id="promoSub"></span></div>
   <p class="pr-txt">Залиште номер — передзвонимо з актуальною ціною та розрахунком доставки.</p>
-  <form class="pr-form" id="promoForm" novalidate>
-    <input type="text" id="promoName" autocomplete="name" placeholder="Ваше ім’я" aria-label="Ваше ім’я">
-    <input type="tel" id="promoPhone" autocomplete="tel" placeholder="+380" aria-label="Ваш телефон">
+  <form class="pr-form" id="promoForm" novalidate><input class="hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <input type="text" id="promoName" maxlength="40" autocomplete="name" placeholder="Ваше ім’я" aria-label="Ваше ім’я">
+    <input type="tel" id="promoPhone" maxlength="20" inputmode="tel" autocomplete="tel" placeholder="+380" aria-label="Ваш телефон">
     <button class="btn btn-amber" type="submit">Чекаю дзвінка</button>
   </form>
-  <p class="pr-err" id="promoErr" role="alert">Вкажіть номер телефону</p>
+  <p class="pr-err" id="promoErr" role="alert">Вкажіть коректний номер, напр. 068 123 45 67</p>
   <p class="pr-done" id="promoDone">Дякуємо! Передзвонимо найближчим часом.</p>
   <div class="pr-msg"><span>або напишіть нам:</span><a class="vb" href="viber://chat?number=%2B380685142331" aria-label="Viber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8c5.2 0 8.3 2.5 8.3 7.5s-3.1 7.5-8.3 7.5c-.9 0-1.7-.1-2.5-.3L6.2 20v-3.2C4.6 15.5 3.7 13.4 3.7 10.3 3.7 5.3 6.8 2.8 12 2.8z"/><path d="M9.3 7.7c.3-.3.7-.3.9 0l.8 1.1c.2.3.2.6 0 .9l-.4.5c.4.9 1.1 1.6 2 2l.5-.4c.3-.2.6-.2.9 0l1.1.8c.3.2.3.6 0 .9l-.6.6c-.5.5-1.3.6-2 .3-1.8-.8-3.2-2.2-4-4-.3-.7-.2-1.5.3-2z"/></svg></a><a class="tg" href="https://t.me/+380685142331" aria-label="Telegram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 4 3 11.2l6.2 2.2L11.4 20l3.3-4.2 4.8 3.6z"/><path d="m9.2 13.4 11.8-9.4"/></svg></a></div>
 </div>
 </div>
 
-<div class="mbar">
-  <a class="pulse" href="tel:+380685142331" style="background:var(--accent);color:#fff"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>Подзвонити</a>
-  <a class="mb-ic" href="viber://chat?number=%2B380685142331" aria-label="Viber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8c5.2 0 8.3 2.5 8.3 7.5s-3.1 7.5-8.3 7.5c-.9 0-1.7-.1-2.5-.3L6.2 20v-3.2C4.6 15.5 3.7 13.4 3.7 10.3 3.7 5.3 6.8 2.8 12 2.8z"/><path d="M9.3 7.7c.3-.3.7-.3.9 0l.8 1.1c.2.3.2.6 0 .9l-.4.5c.4.9 1.1 1.6 2 2l.5-.4c.3-.2.6-.2.9 0l1.1.8c.3.2.3.6 0 .9l-.6.6c-.5.5-1.3.6-2 .3-1.8-.8-3.2-2.2-4-4-.3-.7-.2-1.5.3-2z"/></svg>Viber</a>
-  <a class="mb-ic" href="https://t.me/+380685142331" aria-label="Telegram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 4 3 11.2l6.2 2.2L11.4 20l3.3-4.2 4.8 3.6z"/><path d="m9.2 13.4 11.8-9.4"/></svg>Telegram</a>
-</div>
+
 
 <script>
+/* запобіжник: якщо основний скрипт не спрацював на якомусь телефоні — показуємо сайт повністю */
+setTimeout(function(){
+  if (window.SITE_OK) return;
+  var d = document;
+  d.documentElement.className = d.documentElement.className.replace(/\bjs\b/, '');
+  var i = d.getElementById('intro'); if (i) i.style.display = 'none';
+  d.body.style.overflow = '';
+}, 4500);
+</script>
+<script>
 /* ============================================================
-   НАЛАШТУВАННЯ ЗАЯВОК
-   Щоб заявки з форми приходили вам у Telegram:
-   1) створіть бота через @BotFather і вставте його токен нижче;
-   2) напишіть боту будь-що, відкрийте
+   НАЛАШТУВАННЯ ЗАЯВОК У TELEGRAM
+   1) У Telegram відкрийте @BotFather → /newbot → вкажіть назву.
+      Він дасть токен виду 1234567890:AAAbbbCCC... — вставте в TG_BOT_TOKEN.
+   2) Напишіть своєму новому боту будь-яке повідомлення (або додайте
+      бота в групу менеджерів і напишіть у групі).
+   3) Відкрийте в браузері:
       https://api.telegram.org/bot<ТОКЕН>/getUpdates
-      і скопіюйте "chat":{"id": ...} у TG_CHAT_ID.
-   Якщо залишити порожнім — форма просто покаже "Дякуємо".
+      знайдіть "chat":{"id": ЧИСЛО ... — вставте це число в TG_CHAT_ID
+      (для групи число починається з мінуса, наприклад -1001234567890).
+   Поки поля порожні — сайт показує «Дякуємо», але заявки нікуди не йдуть.
    ============================================================ */
-var TG_BOT_TOKEN = '';
-var TG_CHAT_ID   = '';
+var TG_BOT_TOKEN = '9115130861:AAGx_V7is9Mgejq0zeB_HcDPD9EVc7JT9Dw';   // напр. '1234567890:AAAbbbCCCdddEEE'
+var TG_CHAT_ID   = '435914491';   // напр. '123456789' або '-1001234567890'
 
 var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 var finePointer = window.matchMedia && matchMedia('(pointer:fine)').matches;
@@ -1576,7 +1591,15 @@ var PMAP = {'Дубові дрова':['Дрова','Дуб'],'Дрова з я�
   'Деревні брикети':['Брикети','Деревні'],'Пшеничні брикети':['Брикети','Пшеничні'],'Брикети із соняшнику':['Брикети','Із соняшнику'],'Пелети із соняшнику':['Пелети','Із соняшнику · 9 мм'],'Оптова партія / фура':['Дрова',null,'Ціла фура']};
 document.addEventListener('click', function(e){
   var q = e.target.closest('[data-product], [data-ask]');
-  if (q) { e.preventDefault(); if (window.openLead) window.openLead(q.getAttribute('data-product') || q.getAttribute('data-ask') || '', q.getAttribute('data-title')); return; }
+  if (q) {
+    e.preventDefault();
+    var src = q.id === 'fab' ? 'Кругла кнопка «Замовити» (справа внизу)'
+      : q.closest('.kind') ? 'Каталог → «Дізнатися ціну» біля товару'
+      : q.classList.contains('cp-btn') ? 'Каталог → кнопка розділу «' + q.getAttribute('data-ask') + '»'
+      : 'Кнопка «Дізнатися ціну»';
+    if (window.openLead) window.openLead(q.getAttribute('data-product') || q.getAttribute('data-ask') || '', q.getAttribute('data-title'), src);
+    return;
+  }
   var a = e.target.closest('a[href="#ticket"]'); if (!a) return;
   e.preventDefault();
   if (window.goTicket) window.goTicket();
@@ -1718,12 +1741,52 @@ document.querySelectorAll('.faq details').forEach(function(d){
 
 
 /* ---------- hero ticket (заявка) ---------- */
-function sendLead(text, done){
+/* ---------- захист від спаму ---------- */
+var PAGE_T0 = Date.now(), HUMAN = false;
+['pointerdown','keydown','touchstart','scroll'].forEach(function(ev){ window.addEventListener(ev, function(){ HUMAN = true; }, {passive:true, once:true}); });
+function normPhone(v){ var d = String(v || '').replace(/\D/g, ''); if (d.length === 12 && d.indexOf('380') === 0) d = d.slice(2); if (d.length === 9) d = '0' + d; return d; }
+function isPhone(v){ return /^0(39|50|63|66|67|68|73|89|9[1-9]|[3-6]\d)\d{7}$/.test(normPhone(v)); }
+function cleanTxt(v, max){ return String(v || '').replace(/https?:\/\/\S+|www\.\S+|<[^>]*>/gi, '').replace(/\s+/g, ' ').trim().slice(0, max || 60); }
+function spamCheck(phone){
+  // 1) приховане поле-пастка: людина його не бачить, бот заповнює
+  var hp = false; document.querySelectorAll('.hp').forEach(function(i){ if (i.value) hp = true; });
+  if (hp) return 'honeypot';
+  // 2) надто швидко після відкриття сторінки або без жодної дії людини
+  if (Date.now() - PAGE_T0 < 4000 || !HUMAN) return 'too-fast';
+  // 3) обмеження частоти: не більше 3 заявок за 30 хв і без повторів того ж номера
+  var log = []; try { log = JSON.parse(localStorage.getItem('leadLog') || '[]'); } catch (e) {}
+  var now = Date.now(); log = log.filter(function(r){ return now - r.t < 30 * 60 * 1000; });
+  if (log.length >= 3) return 'rate';
+  if (log.some(function(r){ return r.p === phone; }) ) return 'dup';
+  if (window.__lastLead && now - window.__lastLead < 20000) return 'rate';
+  log.push({t: now, p: phone}); window.__lastLead = now;
+  try { localStorage.setItem('leadLog', JSON.stringify(log)); } catch (e) {}
+  return '';
+}
+
+/* Надсилання заявки в Telegram.
+   form   — назва форми, яку заповнив клієнт (буде заголовком у боті)
+   fields — список [назва поля, значення]                                  */
+function sendLead(form, fields, done){
   window.leadSent = true;
-  if (window.LANG === 'ru') text += '\nМова сайту: російська';
-  if (TG_BOT_TOKEN && TG_CHAT_ID) {
-    fetch('https://api.telegram.org/bot' + TG_BOT_TOKEN + '/sendMessage', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({chat_id: TG_CHAT_ID, text: text}) }).then(done, done);
-  } else done();
+  var phoneF = null; fields.forEach(function(f){ if (/Телефон/.test(f[0])) phoneF = f; });
+  if (phoneF) phoneF[1] = normPhone(phoneF[1]).replace(/^0(\d{2})(\d{3})(\d{2})(\d{2})$/, '+380 $1 $2 $3 $4');
+  fields = fields.map(function(f){ return [f[0], /Телефон|№/.test(f[0]) ? f[1] : cleanTxt(f[1], 60)]; });
+  var why = spamCheck(phoneF ? phoneF[1] : '');
+  if (why) { if (window.console) console.log('[заявку не надіслано: ' + why + ']'); done(); return; }
+  var esc = function(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); };
+  var d = new Date(), p = function(n){ return (n < 10 ? '0' : '') + n; };
+  var lines = ['🔥 <b>НОВА ЗАЯВКА</b>', '📋 <b>' + esc(form) + '</b>', '━━━━━━━━━━━━━━'];
+  fields.forEach(function(f){ if (f[1] !== '' && f[1] != null) lines.push('<b>' + esc(f[0]) + ':</b> ' + esc(f[1])); });
+  lines.push('━━━━━━━━━━━━━━');
+  lines.push('🌐 Мова сайту: ' + (window.LANG === 'ru' ? 'російська' : 'українська'));
+  lines.push('🕒 ' + p(d.getDate()) + '.' + p(d.getMonth() + 1) + '.' + d.getFullYear() + ', ' + p(d.getHours()) + ':' + p(d.getMinutes()));
+  var text = lines.join('\n');
+  if (!TG_BOT_TOKEN || !TG_CHAT_ID) { if (window.console) console.log('[заявка — бот не налаштований]\n' + text); done(); return; }
+  var body = new URLSearchParams({ chat_id: TG_CHAT_ID, text: text, parse_mode: 'HTML', disable_web_page_preview: 'true' });
+  var finished = false, fin = function(){ if (!finished) { finished = true; done(); } };
+  setTimeout(fin, 6000);
+  fetch('https://api.telegram.org/bot' + TG_BOT_TOKEN + '/sendMessage', { method: 'POST', body: body }).then(fin, fin);
 }
 (function(){
   var DATA = {
@@ -1761,10 +1824,11 @@ function sendLead(text, done){
   ph.addEventListener('input', function(){ row.classList.remove('err'); err.classList.remove('on'); });
   f.addEventListener('submit', function(e){
     e.preventDefault();
-    if (ph.value.replace(/\D/g, '').length < 9) { row.classList.add('err'); err.classList.add('on'); ph.focus(); window.sawReset && window.sawReset(); return; }
-    var text = '🔥 Заявка з головного екрану ' + document.getElementById('tNo').textContent + '\nПаливо: ' + st.fuel + ' — ' + st.kind + '\nОбсяг: ' + st.vol + '\nІм’я: ' + (document.getElementById('tName').value || '—') + '\nТелефон: ' + ph.value;
+    if (!isPhone(ph.value)) { row.classList.add('err'); err.classList.add('on'); ph.focus(); window.sawReset && window.sawReset(); return; }
+    var fields = [['№ заявки', document.getElementById('tNo').textContent], ['Паливо', st.fuel], ['Вид', st.kind], ['Обсяг', st.vol],
+                  ['👤 Ім’я', document.getElementById('tName').value.trim() || '—'], ['📞 Телефон', ph.value.trim()]];
     document.getElementById('sawSend').classList.add('split');
-    setTimeout(function(){ sendLead(text, function(){ f.style.display = 'none'; document.getElementById('tDone').style.display = 'block'; }); }, reduce ? 0 : 650);
+    setTimeout(function(){ sendLead('Квитанція-заявка на головному екрані', fields, function(){ f.style.display = 'none'; document.getElementById('tDone').style.display = 'block'; }); }, reduce ? 0 : 650);
   });
 })();
 
@@ -1869,7 +1933,7 @@ function dust(parent, x, y, n){
   place(STOPS[1].f * W(), 6); logEl.classList.add('cut'); show(1); lastT = -1; show(1);
   document.getElementById('volOrder').addEventListener('click', function(e){
     e.preventDefault(); e.stopPropagation();
-    if (window.openLead) window.openLead('Дрова · ' + STOPS[idx].l);
+    if (window.openLead) window.openLead('Дрова · ' + STOPS[idx].l, null, 'Блок «Відпиляйте свій обсяг» (пила)');
   });
 })();
 
@@ -1886,31 +1950,32 @@ function dust(parent, x, y, n){
 (function(){
   var ov = document.getElementById('promoOv'), pr = document.getElementById('promo'), f = document.getElementById('promoForm'),
       ph = document.getElementById('promoPhone'), nm = document.getElementById('promoName'), er = document.getElementById('promoErr'),
-      T = document.getElementById('promoT'), S = document.getElementById('promoSub'), product = '', lastFocus = null;
+      T = document.getElementById('promoT'), S = document.getElementById('promoSub'), product = '', source = '', lastFocus = null;
   var T_PROMO = 'Потрібні дрова, брикети чи пелети?', T_PRICE = 'Дізнатися ціну';
-  function open(title, prod){
-    lastFocus = document.activeElement; product = prod || '';
+  function open(title, prod, src){
+    lastFocus = document.activeElement; product = prod || ''; source = src || 'Вікно «Дізнатися ціну»';
     T.textContent = title; S.textContent = product;
+    if (pr.classList.contains('sent')) f.reset();
     pr.classList.remove('sent'); er.classList.remove('on');
     ov.hidden = false; document.body.style.overflow = 'hidden';
     setTimeout(function(){ nm.focus({preventScroll:true}); }, 350);
   }
   function close(){ ov.hidden = true; document.body.style.overflow = ''; if (lastFocus && lastFocus.focus) lastFocus.focus({preventScroll:true}); }
-  window.openLead = function(prod, title){ open(title || T_PRICE, prod); };
+  window.openLead = function(prod, title, src){ open(title || T_PRICE, prod, src); };
   pr.querySelector('.pr-x').addEventListener('click', close);
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !ov.hidden) close(); });
   ov.addEventListener('click', function(e){ if (e.target === ov) close(); });
   var shown = false; try { shown = sessionStorage.getItem('promoShown') === '1'; } catch (e) {}
   if (!shown) setTimeout(function(){
     if (window.leadSent || !ov.hidden) return;
-    open(T_PROMO, '');
+    open(T_PROMO, '', 'Спливаюче вікно (через 20 секунд на сайті)');
     try { sessionStorage.setItem('promoShown', '1'); } catch (e) {}
   }, 20000);
   ph.addEventListener('input', function(){ er.classList.remove('on'); });
   f.addEventListener('submit', function(e){
     e.preventDefault();
-    if (ph.value.replace(/\D/g, '').length < 9) { er.classList.add('on'); ph.focus(); return; }
-    sendLead('🔥 Заявка' + (product ? ' — ' + product : ' з спливаючого вікна') + '\nІм’я: ' + (nm.value || '—') + '\nТелефон: ' + ph.value,
+    if (!isPhone(ph.value)) { er.classList.add('on'); ph.focus(); return; }
+    sendLead(source, [['Товар', product], ['👤 Ім’я', nm.value.trim() || '—'], ['📞 Телефон', ph.value.trim()]],
       function(){ pr.classList.add('sent'); setTimeout(close, 3500); });
   });
 })();
@@ -1959,8 +2024,8 @@ function dust(parent, x, y, n){
   $('qzForm').addEventListener('submit', function(e){
     e.preventDefault();
     var ph = $('qzPhone').value, nm = $('qzName').value.trim();
-    if (ph.replace(/\D/g, '').length < 9) { $('qzErr').classList.add('on'); $('qzPhone').focus(); return; }
-    sendLead('🚛 Опитувальник доставки\nМісто: ' + Q.city + '\nПаливо: ' + Q.fuel + '\nОбсяг: ' + Q.vol + '\nІм’я: ' + (nm || '—') + '\nТелефон: ' + ph, function(){
+    if (!isPhone(ph)) { $('qzErr').classList.add('on'); $('qzPhone').focus(); return; }
+    sendLead('Опитувальник «Доставка по всій Україні»', [['🚛 Населений пункт', Q.city], ['Паливо', Q.fuel], ['Обсяг', Q.vol], ['👤 Ім’я', nm || '—'], ['📞 Телефон', ph.trim()]], function(){
       $('qzDoneTxt').textContent = (nm ? nm + ', м' : 'М') + 'и зв’яжемося з вами найближчим часом, щоб розрахувати доставку: ' + Q.city + '.';
       show(5);
     });
@@ -2133,6 +2198,8 @@ Object.assign(RU, {
 });
 
 Object.assign(RU, {"Ваше місто, селище, смт чи село":"Ваш город, посёлок, пгт или село","Напр. смт Петриківка":"Напр. пгт Петриковка","або оберіть зі списку:":"или выберите из списка:","Замовлення":"Заказ","Замовити доставку":"Заказать доставку"});
+
+Object.assign(RU, {"Вкажіть коректний номер, напр. 068 123 45 67":"Укажите корректный номер, напр. 068 123 45 67"});
 /* ---------- i18n: українська (основна) / російська ---------- */
 (function(){
   var META_RU = {
@@ -2200,6 +2267,8 @@ Object.assign(RU, {"Ваше місто, селище, смт чи село":"В
   if (LANG === 'ru') setLang('ru');
 })();
 
+
+window.SITE_OK = true;
 </script>
 </body>
 </html>
