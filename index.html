@@ -7,16 +7,16 @@
 <title>Купити дрова в Дніпрі з доставкою — дуб, акація, брикети, пелети | Drova Ukraine</title>
 <meta name="description" content="Дрова з доставкою по Дніпру та області: дуб, ясен, акація, сосна — метрові, у чурках, колоті. Паливні брикети (деревні, пшеничні, соняшникові) та пелети із соняшнику. Від 2 м³ до цілої фури. Опт і роздріб, доставка по Україні. ☎ +38 068 514 23 31">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://drova-ukraine.netlify.app/">
+<link rel="canonical" href="https://vladikx27-sketch.github.io/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Drova Ukraine">
-<meta property="og:url" content="https://drova-ukraine.netlify.app/">
-<meta property="og:image" content="https://drova-ukraine.netlify.app/og-image.png">
+<meta property="og:url" content="https://vladikx27-sketch.github.io/">
+<meta property="og:image" content="https://vladikx27-sketch.github.io/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Drova Ukraine">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://drova-ukraine.netlify.app/og-image.png">
+<meta name="twitter:image" content="https://vladikx27-sketch.github.io/og-image.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta property="og:locale" content="uk_UA">
 <meta property="og:title" content="Drova Ukraine — дрова, брикети та пелети з доставкою">
@@ -948,6 +948,22 @@ html[lang="ru"] .lg-uk{display:none}
 .ckbar .btn{min-height:44px;padding:0 18px;font-size:12.5px;flex:none}
 @media (max-width:560px){.ckbar{left:10px;right:10px;width:auto;bottom:96px;flex-direction:column;align-items:stretch;text-align:center}}
 
+
+#toast{position:fixed;left:50%;top:84px;z-index:200;transform:translate(-50%,-20px);opacity:0;pointer-events:none;background:var(--green);color:#fff;border-radius:16px;padding:14px 22px;box-shadow:0 20px 40px -14px rgba(0,0,0,.4);display:flex;flex-direction:column;gap:2px;text-align:center;transition:opacity .3s,transform .3s;width:max-content;max-width:calc(100vw - 24px)}
+#toast b{font-size:16px}#toast span{font-size:13.5px;opacity:.9}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+/* дорожня карта на телефоні: текст вище, дорога більша */
+@media (max-width:700px){
+  .journey .stick{justify-content:flex-start;padding-top:84px}
+  .journey .top{margin-bottom:6px}
+  .journey h2{font-size:34px}
+  .journey .count{font-size:56px}
+  .road{max-height:none;margin-top:4px}
+  .road .base{stroke-width:30}
+  .road .st text{font-size:22px}
+  .jcards{margin-top:10px}
+}
+
 /* responsive */
 @media (max-width:1100px){
   .nav{display:none}
@@ -1803,12 +1819,19 @@ document.querySelectorAll('.rv').forEach(function(el){ if (el.classList.contains
 (function(){
   var sec = document.getElementById('journey'), path = document.getElementById('roadPath'), prog = document.getElementById('roadProg'),
       truck = document.getElementById('jTruck'), stG = document.getElementById('stations'), now = document.getElementById('jNow'),
-      cards = document.querySelectorAll('.jcard'), L = path.getTotalLength(), F = [.03, .35, .66, .97], sts = [];
+      cards = document.querySelectorAll('.jcard'), F = [.03, .35, .66, .97], sts = [];
+  var MOB = window.innerWidth <= 700;
+  if (MOB) {
+    var D = 'M60 560 C 240 590, 540 540, 540 440 S 90 380, 80 270 S 300 140, 540 80';
+    document.getElementById('road').setAttribute('viewBox', '0 30 600 590');
+    document.querySelectorAll('#road .base, #road .mid, #road .prog').forEach(function(p){ p.setAttribute('d', D); });
+  }
+  var L = path.getTotalLength(), TS = MOB ? 1.5 : 1;
   prog.style.strokeDasharray = L; prog.style.strokeDashoffset = L;
   F.forEach(function(f, i){
     var p = path.getPointAtLength(L * f), g = document.createElementNS(NS, 'g');
     g.setAttribute('class', 'st');
-    g.innerHTML = '<circle class="o" cx="' + p.x + '" cy="' + p.y + '" r="17"/><circle class="i" cx="' + p.x + '" cy="' + p.y + '" r="6"/><text x="' + p.x + '" y="' + (p.y + (i % 2 ? 52 : -32)) + '">0' + (i + 1) + '</text>';
+    g.innerHTML = '<circle class="o" cx="' + p.x + '" cy="' + p.y + '" r="17"/><circle class="i" cx="' + p.x + '" cy="' + p.y + '" r="6"/><text x="' + (MOB ? p.x + (p.x > 300 ? -44 : 44) : p.x) + '" y="' + (MOB ? p.y + 8 : p.y + (i % 2 ? 52 : -32)) + '">0' + (i + 1) + '</text>';
     stG.appendChild(g); sts.push(g);
   });
   var last = -1;
@@ -1819,7 +1842,7 @@ document.querySelectorAll('.rv').forEach(function(el){ if (el.classList.contains
     prog.style.strokeDashoffset = L - d;
     var pt = path.getPointAtLength(d), pt2 = path.getPointAtLength(Math.min(L, d + 2));
     var ang = Math.atan2(pt2.y - pt.y, pt2.x - pt.x) * 180 / Math.PI;
-    truck.setAttribute('transform', 'translate(' + pt.x.toFixed(1) + ',' + pt.y.toFixed(1) + ') rotate(' + ang.toFixed(1) + ')');
+    truck.setAttribute('transform', 'translate(' + pt.x.toFixed(1) + ',' + pt.y.toFixed(1) + ') rotate(' + ang.toFixed(1) + ') scale(' + TS + ')');
     var idx = 0; F.forEach(function(f, i){ if (d / L >= f - .01) idx = i; });
     sts.forEach(function(s, i){ s.classList.toggle('on', i <= idx); });
     if (idx !== last) {
@@ -1873,16 +1896,15 @@ function spamCheck(phone){
   var hp = false; document.querySelectorAll('.hp').forEach(function(i){ if (i.value) hp = true; });
   if (hp) return 'honeypot';
   // 2) надто швидко після відкриття сторінки або без жодної дії людини
-  if (Date.now() - PAGE_T0 < 3000 || !HUMAN) return 'too-fast';
-  // 3) обмеження частоти: не більше 3 заявок за 30 хв і без повторів того ж номера
+  if (Date.now() - PAGE_T0 < 2500 || !HUMAN) return 'too-fast';
+  // 3) не більше 3 заявок на добу з одного номера телефону
   var log = []; try { log = JSON.parse(localStorage.getItem('leadLog') || '[]'); } catch (e) {}
-  var now = Date.now(); log = log.filter(function(r){ return now - r.t < 30 * 60 * 1000; });
-  var recent = log.filter(function(r){ return now - r.t < 2 * 60 * 1000; });
-  if (log.length >= 10) return 'rate';
-  if (recent.some(function(r){ return r.p === phone; }) ) return 'dup';
-  if (window.__lastLead && now - window.__lastLead < 8000) return 'rate';
+  var now = Date.now(); log = log.filter(function(r){ return now - r.t < 24 * 60 * 60 * 1000; });
+  if (log.filter(function(r){ return r.p === phone; }).length >= 3) return 'limit-3-per-day';
+  // 4) захист від подвійного натискання
+  if (window.__lastLead && now - window.__lastLead < 2500) return 'double-click';
   log.push({t: now, p: phone}); window.__lastLead = now;
-  try { localStorage.setItem('leadLog', JSON.stringify(log)); } catch (e) {}
+  try { localStorage.setItem('leadLog', JSON.stringify(log.slice(-50))); } catch (e) {}
   return '';
 }
 
@@ -2098,7 +2120,7 @@ function dust(parent, x, y, n){
     e.preventDefault();
     if (!isPhone(ph.value)) { er.classList.add('on'); ph.focus(); return; }
     sendLead(source, [['Товар', product], ['👤 Ім’я', nm.value.trim() || '—'], ['📞 Телефон', ph.value.trim()]],
-      function(){ pr.classList.add('sent'); setTimeout(close, 3500); });
+      function(){ close(); f.reset(); window.toast && window.toast(); });
   });
 })();
 
@@ -2220,6 +2242,14 @@ document.querySelectorAll('input[type="tel"]').forEach(function(inp){
   document.getElementById('ckOk').addEventListener('click', function(){ bar.hidden = true; try { localStorage.setItem('ckOk', '1'); } catch (e) {} });
 })();
 
+
+/* ---------- повідомлення «Заявку надіслано» ---------- */
+window.toast = function(){
+  var t = document.getElementById('toast');
+  if (!t) { t = document.createElement('div'); t.id = 'toast'; t.setAttribute('role', 'status'); document.body.appendChild(t); }
+  t.innerHTML = '<b>' + (window.LANG === 'ru' ? 'Спасибо! Заявка отправлена' : 'Дякуємо! Заявку надіслано') + '</b><span>' + (window.LANG === 'ru' ? 'Мы перезвоним в ближайшее время.' : 'Ми передзвонимо найближчим часом.') + '</span>';
+  t.className = 'show'; clearTimeout(t._t); t._t = setTimeout(function(){ t.className = ''; }, 3800);
+};
 var RU = {
 "Drova Ukraine — на головну":"Drova Ukraine — на главную",
 "· ІМ’Я":"· ИМЯ","· ВИД":"· ВИД","· ОБСЯГ":"· ОБЪЁМ","· ТЕЛЕФОН":"· ТЕЛЕФОН","· ЩО ПОТРІБНО":"· ЧТО НУЖНО",
